@@ -25,8 +25,6 @@ min_length = st.number_input("最小字数", min_value=200, step=1000)
 section1 = st.text_input("章节1")
 section2 = st.text_input("章节2")
 section3 = st.text_input("章节3")
-section4 = st.text_input("章节4")
-section5 = st.text_input("章节5")
 
 
 def handle_click():
@@ -71,7 +69,7 @@ if st.session_state.processing:
 
         input_texts = []
 
-        for section in [section1, section2, section3, section4, section5]:
+        for section in [section1, section2, section3]:
             if section:
                 input_texts.append(section)
 
