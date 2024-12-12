@@ -57,23 +57,23 @@ if st.session_state.processing:
     output_dir = "temp"
     os.makedirs(output_dir, exist_ok=True)  # 创建目录，如果已存在则不会报错
 
-    try:
-        with st.spinner("AI正在思考中，请稍等..."):
-            file_content = uploaded_file.read()
-            temp_file_path = os.path.join(output_dir, "temp.pdf")
-            with open(temp_file_path, "wb") as temp_file:
-                temp_file.write(file_content)
-            result = app.invoke(
-                input={"paths": [temp_file_path], "input_text": input_text}
-            )
+    with st.spinner("AI正在思考中，请稍等..."):
+        file_content = uploaded_file.read()
+        temp_file_path = os.path.join(output_dir, "temp.pdf")
+        with open(temp_file_path, "wb") as temp_file:
+            temp_file.write(file_content)
+        result = app.invoke(input={"paths": [temp_file_path], "input_text": input_text})
 
-        with open(result["article_path"], "rb") as file:
-            file_bytes = file.read()
-            st.download_button(
-                label="文件下载",
-                data=file_bytes,
-                file_name="tender_document.docx",
-                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            )
-    except Exception:
-        st.error("请检查输入，如果无误请刷新页面再次尝试。或联系管理人员处理。")
+    with open(result["article_path"], "rb") as file:
+        file_bytes = file.read()
+        st.download_button(
+            label="文件下载",
+            data=file_bytes,
+            file_name="tender_document.docx",
+            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        )
+
+    # try:
+    #
+    # except Exception:
+    #     st.error("请检查输入，如果无误请刷新页面再次尝试。或联系管理人员处理。")
