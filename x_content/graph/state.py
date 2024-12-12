@@ -13,4 +13,4 @@ class GraphState(TypedDict):
     outline_json: str
     web_search_query: str
     documents: List[Document]
-    section_path: str
+    article_path: str

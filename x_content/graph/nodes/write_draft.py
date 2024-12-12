@@ -11,7 +11,7 @@ from langchain_community.tools.tavily_search import TavilySearchResults
 from x_content.graph.state import GraphState
 from x_content.graph.chains.write_draft_chain import write_draft_chain
 
-web_search_tool = TavilySearchResults(k=3)
+web_search_tool = TavilySearchResults(k=1)
 
 
 def write_draft(state: GraphState) -> Dict[str, Any]:
