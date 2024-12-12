@@ -9,20 +9,20 @@ from langchain_community.tools.tavily_search import TavilySearchResults
 from x_section.graph.state import GraphState
 from x_section.graph.chains.write_draft_chain import write_draft_chain
 
-web_search_tool = TavilySearchResults(k=3)
+web_search_tool = TavilySearchResults(k=1)
 
 
 def write_draft(state: GraphState) -> Dict[str, Any]:
     print("---WRITE DRAFT (X_SECTION)---")
+    summarization = state["summarization"]
     project_name = state["project_name"]
     min_length = state["min_length"]
-    documents = state["documents"]
     input_texts = state["input_texts"]
     web_search_queries = state["web_search_queries"]
 
     sections = []
     for idx, input_text in enumerate(input_texts):
-        section_documents = documents
+        section_documents = [summarization]
         query = " ".join([project_name, web_search_queries[idx]])
         docs = web_search_tool.invoke({"query": query})
         web_results = "\n".join([d["content"] for d in docs])

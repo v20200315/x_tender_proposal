@@ -1,6 +1,5 @@
 import os
-from time import sleep
-
+from datetime import datetime
 import streamlit as st
 from x_content.graph.graph import app
 
@@ -66,10 +65,14 @@ if st.session_state.processing:
 
     with open(result["article_path"], "rb") as file:
         file_bytes = file.read()
+
+        # 获取当前时间戳
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
         st.download_button(
             label="文件下载",
             data=file_bytes,
-            file_name="tender_document.docx",
+            file_name=f"tender_document_{timestamp}.docx",
             mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         )
 

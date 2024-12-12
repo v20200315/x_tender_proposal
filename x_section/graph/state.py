@@ -14,4 +14,5 @@ class GraphState(TypedDict):
     input_texts: List[str]
     web_search_queries: List[str]
     documents: List[Document]
+    summarization: str
     section_path: str

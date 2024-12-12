@@ -7,11 +7,11 @@ from x_content.graph.chains.generate_query_chain import generate_query_chain
 def generate_query(state: GraphState) -> Dict[str, Any]:
 
     print("---GENERATE QUERY (X_CONTENT)---")
-    documents = state["documents"]
+    summarization = state["summarization"]
     outline_json = state["outline_json"]
 
     response = generate_query_chain.invoke(
-        {"outline_json": outline_json, "documents": documents}
+        {"outline_json": outline_json, "summarization": summarization}
     ).content
     # import json
     #

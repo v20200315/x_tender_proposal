@@ -16,12 +16,12 @@ web_search_tool = TavilySearchResults(k=1)
 
 def write_draft(state: GraphState) -> Dict[str, Any]:
     print("---WRITE DRAFT (X_CONTENT)---")
-    documents = state["documents"]
+    summarization = state["summarization"]
     outline_json = json.loads(state["outline_json"])
     project_name = outline_json["project_name"]
     article_json = outline_json
     for chapter in article_json["chapters"]:
-        chapter_documents = documents
+        chapter_documents = [summarization]
         query = " ".join([project_name, chapter["query"]])
         docs = web_search_tool.invoke({"query": query})
         web_results = "\n".join([d["content"] for d in docs])
