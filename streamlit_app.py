@@ -1,0 +1,22 @@
+from dotenv import load_dotenv
+import streamlit as st
+
+load_dotenv()
+
+pages = {
+    "控制台": [
+        st.Page("home.py", title="主页", icon="🏠"),
+        st.Page("dashboard.py", title="仪表盘", icon="📊"),
+    ],
+    "招标文件生成器": [
+        st.Page("generate_outline.py", title="摘要生成器", icon="📋"),
+        st.Page("generate_content.py", title="内容生成器", icon="📓"),
+        st.Page("generate_section.py", title="章节内容生成器", icon="📓"),
+    ],
+    "工具": [
+        st.Page("cloned_chatgpt.py", title="克隆的ChatGPT", icon="💬"),
+    ],
+}
+
+pg = st.navigation(pages)
+pg.run()
