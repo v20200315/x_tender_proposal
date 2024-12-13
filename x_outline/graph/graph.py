@@ -25,26 +25,29 @@ def decide_to_category(state):
 workflow = StateGraph(GraphState)
 
 workflow.add_node("load_docs", load_docs)
-workflow.add_node("summarize_docs", summarize_docs)
-workflow.add_node("is_tender", is_tender)
-workflow.add_node("categorize_tender", categorize_tender)
+# workflow.add_node("summarize_docs", summarize_docs)
+# workflow.add_node("is_tender", is_tender)
+# workflow.add_node("categorize_tender", categorize_tender)
 workflow.add_node("generate_outline", generate_outline)
 
+# workflow.set_entry_point("load_docs")
+# workflow.add_edge("load_docs", "summarize_docs")
+# workflow.add_edge("summarize_docs", "is_tender")
+# workflow.add_conditional_edges(
+#     "is_tender",
+#     decide_to_category,
+#     {
+#         "categorize_tender": "categorize_tender",
+#         END: END,
+#     },
+# )
+#
+# workflow.add_edge("categorize_tender", "generate_outline")
+# workflow.add_edge("generate_outline", END)
+
 workflow.set_entry_point("load_docs")
-workflow.add_edge("load_docs", "summarize_docs")
-workflow.add_edge("summarize_docs", "is_tender")
-workflow.add_conditional_edges(
-    "is_tender",
-    decide_to_category,
-    {
-        "categorize_tender": "categorize_tender",
-        END: END,
-    },
-)
-
-workflow.add_edge("categorize_tender", "generate_outline")
+workflow.add_edge("load_docs", "generate_outline")
 workflow.add_edge("generate_outline", END)
-
 
 app = workflow.compile()
 
