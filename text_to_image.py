@@ -4,12 +4,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 prompt = """
-An email system architecture diagram for a tender project, showing the overall system architecture including mail 
-servers, gateways, storage systems, and user terminals. The diagram should highlight the connection between these 
-modules and indicate the functionality and data flow paths. The design should be clean, professional, and easy to 
-understand, with clear labels and arrows demonstrating how data flows through the system. The diagram must convey 
-a clear understanding of the system's operational mechanisms, suitable for inclusion in a formal project proposal 
-for a bidding process.
+邮件服务器集群部署图 \n
+该图展示了多台邮件服务器通过负载均衡器连接的结构。
+每台服务器都配置有冗余硬件，确保高可用性。负载均衡器负责将用户请求分配到不同的服务器上，以实现负载均衡。
 """
 
 client = OpenAI()
