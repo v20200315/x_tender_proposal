@@ -1,12 +1,12 @@
 from typing import Any, Dict
 
 from logger_config import logger
-from x_sandbox.graph.chains.summarize_docs_chain import summarize_docs_chain
-from x_sandbox.graph.state import GraphState
+from x_outline_v2.graph.chains.summarize_docs_chain import summarize_docs_chain
+from x_outline_v2.graph.state import GraphState
 
 
 def summarize_docs(state: GraphState) -> Dict[str, Any]:
-    logger.info("---SUMMARIZE DOCS (X_SANDBOX)---")
+    logger.info("---SUMMARIZE DOCS (X_OUTLINE_V2)---")
     documents = state["documents"]
 
     summarizations = []

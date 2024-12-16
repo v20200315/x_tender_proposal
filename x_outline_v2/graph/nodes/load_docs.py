@@ -3,11 +3,11 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import PyPDFLoader
 
 from logger_config import logger
-from x_sandbox.graph.state import GraphState
+from x_outline_v2.graph.state import GraphState
 
 
 def load_docs(state: GraphState) -> Dict[str, Any]:
-    logger.info("---LOAD DOCS (X_SANDBOX)---")
+    logger.info("---LOAD DOCS (X_OUTLINE_V2)---")
     paths = state["paths"]
 
     docs = [PyPDFLoader(path).load() for path in paths]
