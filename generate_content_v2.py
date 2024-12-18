@@ -160,7 +160,8 @@ else:
                         "project_name": project_name,
                         "summarizations": st.session_state["summarizations"],
                         "outline": st.session_state["outline"],
-                        "todos": sub_nodes,
+                        "todo_list": sub_nodes,
+                        "done_list": [],
                         "images": images,
                         "min_length": min_length,
                     }

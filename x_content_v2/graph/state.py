@@ -1,7 +1,6 @@
-import json
 from typing import List, TypedDict
 
-from langchain_core.documents import Document
+from pydantic import Json
 
 
 class GraphState(TypedDict):
@@ -11,7 +10,9 @@ class GraphState(TypedDict):
 
     project_name: str
     outline: str
-    todos: List[str]
+    todo_list: List[Json]
+    doing: Json
+    done_list: List[Json]
     summarizations: List[str]
     images: bool
     min_length: int
