@@ -298,17 +298,17 @@ if submit:
         with open(temp_file_path, "wb") as temp_file:
             temp_file.write(file_content)
         st.session_state["path"] = temp_file_path
-        # response = app.invoke(
-        #     input={"paths": [st.session_state["path"]]},
-        #     config={"recursion_limit": 64, "configurable": {"llm": "anthropic"}},
-        # )
-        # formatted_json = json.dumps(response["outline"], indent=4, ensure_ascii=False)
-        # st.session_state["outline"] = response["outline"]
-        # st.session_state["summarizations"] = response["summarizations"]
-        parsed_json = json.loads(json_str)
-        formatted_json = json.dumps(parsed_json, indent=4, ensure_ascii=False)
-        st.session_state["outline"] = parsed_json
-        st.session_state["summarizations"] = summarizations
+        response = app.invoke(
+            input={"paths": [st.session_state["path"]]},
+            config={"recursion_limit": 64, "configurable": {"llm": "anthropic"}},
+        )
+        formatted_json = json.dumps(response["outline"], indent=4, ensure_ascii=False)
+        st.session_state["outline"] = response["outline"]
+        st.session_state["summarizations"] = response["summarizations"]
+        # parsed_json = json.loads(json_str)
+        # formatted_json = json.dumps(parsed_json, indent=4, ensure_ascii=False)
+        # st.session_state["outline"] = parsed_json
+        # st.session_state["summarizations"] = summarizations
 
         st.write("Outline")
         with st.container(height=500):
