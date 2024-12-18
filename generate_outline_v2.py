@@ -4,6 +4,7 @@ from datetime import datetime
 from time import sleep
 
 import streamlit as st
+
 from x_outline_v2.graph.graph import app
 
 json_str = """
@@ -258,10 +259,11 @@ summarizations = [
     "本文件包含用户案例、售后服务说明及资质说明三个主要部，涵盖用户名称、系统、产品、硬件平台及联系人信息。售后服务说明详细描述了本地服务支持情况、响应时间承诺、人员的二次开发能力、产品升级及第三方软件维护周期。资质说明则包括注册资本复印件、软件自主知识产权证书、系统集成资质、涉密认证及高新技术企业认证等相关文件要求。",
 ]
 
-
 st.set_page_config(page_title="投标文件生成器")
 st.markdown("#### 投标文件Outline生成器 V0.1.2")
 
+with st.sidebar:
+    security_key = st.text_input("请输入Security Key：", type="password")
 
 uploaded_file = st.file_uploader(
     "相关文档（暂时只支持上传一个PDF格式的文件）",
@@ -269,7 +271,16 @@ uploaded_file = st.file_uploader(
     accept_multiple_files=False,
 )
 
+
 submit = st.button("开始生成Outline")
+
+if submit and not security_key:
+    st.info("请输入你的Security Key")
+    st.stop()
+
+if submit and security_key != "xtp_hrqdde2711a3":
+    st.info("请输入正确的Security Key")
+    st.stop()
 
 # 执行业务逻辑
 if submit and not uploaded_file:
@@ -287,17 +298,17 @@ if submit:
         with open(temp_file_path, "wb") as temp_file:
             temp_file.write(file_content)
         st.session_state["path"] = temp_file_path
-        response = app.invoke(
-            input={"paths": [st.session_state["path"]]},
-            config={"recursion_limit": 64, "configurable": {"llm": "anthropic"}},
-        )
-        formatted_json = json.dumps(response["outline"], indent=4, ensure_ascii=False)
-        st.session_state["outline"] = response["outline"]
-        st.session_state["summarizations"] = response["summarizations"]
-        # parsed_json = json.loads(json_str)
-        # formatted_json = json.dumps(parsed_json, indent=4, ensure_ascii=False)
-        # st.session_state["outline"] = parsed_json
-        # st.session_state["summarizations"] = summarizations
+        # response = app.invoke(
+        #     input={"paths": [st.session_state["path"]]},
+        #     config={"recursion_limit": 64, "configurable": {"llm": "anthropic"}},
+        # )
+        # formatted_json = json.dumps(response["outline"], indent=4, ensure_ascii=False)
+        # st.session_state["outline"] = response["outline"]
+        # st.session_state["summarizations"] = response["summarizations"]
+        parsed_json = json.loads(json_str)
+        formatted_json = json.dumps(parsed_json, indent=4, ensure_ascii=False)
+        st.session_state["outline"] = parsed_json
+        st.session_state["summarizations"] = summarizations
 
         st.write("Outline")
         with st.container(height=500):

@@ -12,6 +12,8 @@ from x_outline_v2.graph.nodes import (
     review_outline,
 )
 
+print()
+
 
 def decide_to_end(state):
     print("---DECIDE TO END---")
