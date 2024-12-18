@@ -9,7 +9,19 @@ from x_outline_v2.graph.nodes import (
     load_docs,
     summarize_docs,
     generate_outline,
+    review_outline,
 )
+
+
+def decide_to_end(state):
+    print("---DECIDE TO END---")
+
+    if state["documents"]:
+        print("---DECISION: REVIEW---")
+        return "review_outline"
+    else:
+        print("---DECISION: END---")
+        return END
 
 
 workflow = StateGraph(GraphState)
@@ -17,11 +29,27 @@ workflow = StateGraph(GraphState)
 workflow.add_node("load_docs", load_docs)
 workflow.add_node("summarize_docs", summarize_docs)
 workflow.add_node("generate_outline", generate_outline)
+workflow.add_node("review_outline", review_outline)
 
 workflow.set_entry_point("load_docs")
 workflow.add_edge("load_docs", "summarize_docs")
 workflow.add_edge("summarize_docs", "generate_outline")
-workflow.add_edge("generate_outline", END)
+workflow.add_edge("generate_outline", "review_outline")
+
+# workflow.add_node("load_docs", load_docs)
+# workflow.add_node("review_outline", review_outline)
+#
+# workflow.set_entry_point("load_docs")
+# workflow.add_edge("load_docs", "review_outline")
+
+workflow.add_conditional_edges(
+    "review_outline",
+    decide_to_end,
+    {
+        "review_outline": "review_outline",
+        END: END,
+    },
+)
 
 
 app = workflow.compile()

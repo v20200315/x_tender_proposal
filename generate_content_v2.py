@@ -164,7 +164,11 @@ else:
                         "done_list": [],
                         "images": images,
                         "min_length": min_length,
-                    }
+                    },
+                    config={
+                        "recursion_limit": 64,
+                        "configurable": {"llm": "anthropic"},
+                    },
                 )
 
             with open(response["article_path"], "rb") as file:
