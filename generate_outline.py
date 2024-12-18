@@ -303,4 +303,4 @@ if submit:
         with st.container(height=500):
             st.code(formatted_json, wrap_lines=True, language="json")
 
-        st.page_link("generate_content_v2.py", label="确认Outline", icon="📓")
+        st.page_link("generate_content.py", label="确认Outline", icon="📓")
