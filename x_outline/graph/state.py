@@ -10,7 +10,5 @@ class GraphState(TypedDict):
 
     paths: List[str]
     documents: List[Document]
-    summarization: str
-    tender: str
-    tender_category: str
+    summarizations: List[str]
     outline: str

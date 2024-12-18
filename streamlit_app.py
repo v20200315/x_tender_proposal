@@ -9,9 +9,13 @@ pages = {
         st.Page("dashboard.py", title="仪表盘", icon="📊"),
     ],
     "招标文件生成器": [
-        st.Page("generate_outline_v2.py", title="大纲生成器", icon="📋"),
-        st.Page("generate_content_v2.py", title="内容生成器", icon="📓"),
+        st.Page("generate_outline.py", title="大纲生成器", icon="📋"),
+        st.Page("generate_content.py", title="内容生成器", icon="📓"),
         st.Page("generate_section.py", title="章节内容生成器", icon="📓"),
+    ],
+    "招标文件生成器Pro": [
+        st.Page("generate_outline_v2.py", title="大纲生成器Pro", icon="📋"),
+        st.Page("generate_content_v2.py", title="内容生成器Pro", icon="📓"),
     ],
     "工具": [
         st.Page("cloned_chatgpt.py", title="克隆的ChatGPT", icon="💬"),

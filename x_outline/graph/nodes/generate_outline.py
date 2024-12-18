@@ -1,19 +1,25 @@
 from typing import Any, Dict
 
-from x_outline.graph.chains.generate_outline_chain import generate_outline_chain
-from x_outline.graph.state import GraphState
+from logger_config import logger
+from x_outline_v2.graph.chains.generate_outline_chain import generate_outline_chain
+from x_outline_v2.graph.chains.generate_outline_chain2 import generate_outline_chain2
+from x_outline_v2.graph.state import GraphState
 
 
 def generate_outline(state: GraphState) -> Dict[str, Any]:
-    print("---GENERATE OUTLINE---")
-    documents = state["documents"]
+    logger.info("---GENERATE OUTLINE (X_OUTLINE)---")
+    summarizations = state["summarizations"]
 
-    outline = generate_outline_chain.invoke({"documents": documents})
+    response = generate_outline_chain.invoke(
+        {"summarizations": summarizations, "tier": 1}
+    )
 
-    # print("generate_outline:")
-    # print(outline)
-    # print("=" * 20)
-    # print(outline.content)
-    # print("=" * 20)
+    response2 = generate_outline_chain2.invoke(
+        {"summarizations": summarizations, "outline": response}
+    )
 
-    return {"outline": outline.content}
+    response3 = generate_outline_chain2.invoke(
+        {"summarizations": summarizations, "outline": response2}
+    )
+
+    return {"outline": response3}

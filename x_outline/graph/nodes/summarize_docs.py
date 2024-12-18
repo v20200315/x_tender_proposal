@@ -1,19 +1,18 @@
 from typing import Any, Dict
 
-from x_outline.graph.chains.summarize_docs_chain import summarize_docs_chain
-from x_outline.graph.state import GraphState
+from logger_config import logger
+from x_outline_v2.graph.chains.summarize_docs_chain import summarize_docs_chain
+from x_outline_v2.graph.state import GraphState
 
 
 def summarize_docs(state: GraphState) -> Dict[str, Any]:
-    print("---SUMMARIZE DOCS---")
+    logger.info("---SUMMARIZE DOCS (X_OUTLINE)---")
     documents = state["documents"]
 
-    summarization = summarize_docs_chain.invoke({"documents": documents})
+    summarizations = []
+    for i in range(0, len(documents), 3):
+        chunk = documents[i : i + 3]
+        response = summarize_docs_chain.invoke(chunk)
+        summarizations.append(response["output_text"])
 
-    # print("summarize_docs:")
-    # print(summarization)
-    # print("=" * 20)
-    # print(summarization.content)
-    # print("=" * 20)
-
-    return {"summarization": summarization.content}
+    return {"summarizations": summarizations}

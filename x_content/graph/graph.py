@@ -6,32 +6,43 @@ from langgraph.graph import END, StateGraph
 
 from x_content.graph.state import GraphState
 from x_content.graph.nodes import (
-    load_docs,
-    summarize_docs,
-    structure_outline,
-    generate_query,
     write_draft,
+    review_draft,
+    write_paper,
 )
+
+
+def decide_to_write_paper(state):
+    print("---DECIDE TO WRITE PAPER---")
+
+    if state["todo_list"]:
+        print("---DECISION: DRAFT---")
+        return "write_draft"
+    else:
+        print("---DECISION: PAPER---")
+        return "write_paper"
 
 
 workflow = StateGraph(GraphState)
 
-workflow.add_node("structure_outline", structure_outline)
-workflow.add_node("load_docs", load_docs)
-workflow.add_node("summarize_docs", summarize_docs)
-workflow.add_node("generate_query", generate_query)
 workflow.add_node("write_draft", write_draft)
+workflow.add_node("review_draft", review_draft)
+workflow.add_node("write_paper", write_paper)
 
-workflow.set_entry_point("structure_outline")
+workflow.set_entry_point("write_draft")
+workflow.add_edge("write_draft", "review_draft")
+workflow.add_conditional_edges(
+    "review_draft",
+    decide_to_write_paper,
+    {
+        "write_draft": "write_draft",
+        "write_paper": "write_paper",
+    },
+)
 
-
-workflow.add_edge("structure_outline", "load_docs")
-workflow.add_edge("load_docs", "summarize_docs")
-workflow.add_edge("summarize_docs", "generate_query")
-workflow.add_edge("generate_query", "write_draft")
-workflow.add_edge("write_draft", END)
+workflow.add_edge("write_paper", END)
 
 
 app = workflow.compile()
 
-app.get_graph().draw_mermaid_png(output_file_path="x_content/graph.png")
+app.get_graph().draw_mermaid_png(output_file_path="x_content_v2/graph.png")

@@ -1,71 +1,44 @@
-import os
-import json
-
 from typing import Any, Dict
-
+from langchain_community.tools import TavilySearchResults
 from langchain.schema import Document
-from docx import Document as DocxDocument
-from datetime import datetime
-from langchain_community.tools.tavily_search import TavilySearchResults
 
-from x_content.graph.state import GraphState
-from x_content.graph.chains.write_draft_chain import write_draft_chain
+from logger_config import logger
+from x_content_v2.graph.chains.write_draft_chain import write_draft_chain
+from x_content_v2.graph.state import GraphState
 
-web_search_tool = TavilySearchResults(k=1)
+web_search_tool = TavilySearchResults(k=3)
 
 
 def write_draft(state: GraphState) -> Dict[str, Any]:
-    print("---WRITE DRAFT (X_CONTENT)---")
-    summarization = state["summarization"]
-    outline_json = json.loads(state["outline_json"])
-    project_name = outline_json["project_name"]
-    article_json = outline_json
-    for chapter in article_json["chapters"]:
-        chapter_documents = [summarization]
-        query = " ".join([project_name, chapter["query"]])
-        docs = web_search_tool.invoke({"query": query})
-        web_results = "\n".join([d["content"] for d in docs])
-        web_results = Document(page_content=web_results)
-        if chapter_documents is not None:
-            chapter_documents.append(web_results)
-        else:
-            chapter_documents = [web_results]
+    logger.info("---WRITE DRAFT (X_CONTENT)---")
+    project_name = state["project_name"]
+    outline = state["outline"]
+    todo_list = state["todo_list"]
+    done_list = state["done_list"]
+    summarizations = state["summarizations"]
+    images = state["images"]
+    min_length = state["min_length"]
 
-        article = write_draft_chain.invoke(
-            {
-                "documents": chapter_documents,
-                "project_name": project_name,
-                "chapter_title": chapter["title"],
-                "chapter_content": chapter["content"],
-                "min_length": 600,
-            }
-        )
-        chapter["article"] = article.content
+    todo = todo_list.pop(0)
 
-    # 创建一个新的Word文档
-    doc = DocxDocument()
+    query = " ".join([project_name, todo["title"], todo["abstract"]])
+    docs = web_search_tool.invoke({"query": query})
+    web_results = "\n".join([d["content"] for d in docs])
+    web_results = Document(page_content=web_results)
+    documents = [web_results]
 
-    # 添加标题
-    doc.add_heading(f"{article_json['project_name']} 投标文件", 0)
+    response = write_draft_chain.invoke(
+        {
+            "outline": outline,
+            "title": todo["title"],
+            "abstract": todo["abstract"],
+            "summarizations": summarizations,
+            "documents": documents,
+            "images": images,
+            "min_length": min_length,
+        }
+    )
 
-    # 添加章节内容
-    for chapter in article_json["chapters"]:
-        # 添加章节标题
-        doc.add_heading(f"第{chapter['order']}章: {chapter['title']}", level=1)
-        # 添加章节详细内容
-        if "article" in chapter:
-            doc.add_paragraph(chapter["article"])
+    todo["content"] = response.content
 
-    # 获取当前时间戳
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-
-    # 确保文件夹路径存在
-    output_dir = "files"
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
-    # 保存文档
-    file_path = os.path.join(output_dir, f"tender_document_{timestamp}.docx")
-    doc.save(file_path)
-
-    return {"article_path": file_path}
+    return {"doing": todo}
