@@ -90,7 +90,7 @@ def display_section_info(section, sub_nodes, level=0):
 
 # 假设 parsed_json 已在 session_state 中
 if "path" not in st.session_state or "outline" not in st.session_state:
-    st.page_link("generate_outline_v2.py", label="首先创建Outline", icon="📋")
+    st.page_link("generate_outline.py", label="首先创建Outline", icon="📋")
 else:
     # if st.session_state["path"]:
     #     st.write(st.session_state["path"])
