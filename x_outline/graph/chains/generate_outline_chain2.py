@@ -4,8 +4,7 @@ from typing import List, Optional
 
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
-
-llm = ChatOpenAI(model="gpt-4o", temperature=0.5)
+from langchain_community.llms import Tongyi
 
 template = """
 #### 角色
@@ -55,4 +54,13 @@ prompt = PromptTemplate(
     partial_variables={"format_instructions": parser.get_format_instructions()},
 )
 
-generate_outline_chain2 = prompt | llm | parser
+
+def get_generate_outline_chain2(llm_type):
+
+    if llm_type == "通义千问":
+        llm = Tongyi(model="qwen-plus", temperature=0.5)
+    else:
+        llm = ChatOpenAI(model="gpt-4o", temperature=0.5)
+
+    generate_outline_chain2 = prompt | llm | parser
+    return generate_outline_chain2

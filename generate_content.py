@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 import streamlit as st
 
@@ -95,8 +96,8 @@ else:
     # if st.session_state["path"]:
     #     st.write(st.session_state["path"])
 
-    # if st.session_state["outline"]:
-    #     st.json(st.session_state["outline"], expanded=False)
+    if st.session_state["outline"]:
+        st.json(st.session_state["outline"], expanded=False)
 
     parsed_json = st.session_state["outline"]
 
@@ -130,6 +131,7 @@ else:
 
     # 添加按钮，点击后显示完整信息
     if st.button("获取当前节点的完整信息并生成内容"):
+        logger.info(f"LLM_TYPE: {os.getenv('LLM_TYPE')}")
         if selected_section:
             # 获取当前节点及子节点信息
             current_section_info = get_subsections_info(selected_section)

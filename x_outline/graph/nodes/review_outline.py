@@ -1,7 +1,7 @@
 from typing import Any, Dict
 
 from logger_config import logger
-from x_outline_v2.graph.state import GraphState
+from x_outline.graph.state import GraphState
 
 
 def review_outline(state: GraphState) -> Dict[str, Any]:

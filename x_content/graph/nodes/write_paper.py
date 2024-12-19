@@ -4,7 +4,7 @@ from typing import Any, Dict
 from docx import Document as DocxDocument
 
 from logger_config import logger
-from x_content_v2.graph.state import GraphState
+from x_content.graph.state import GraphState
 
 
 def write_paper(state: GraphState) -> Dict[str, Any]:

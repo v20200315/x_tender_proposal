@@ -1,7 +1,7 @@
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
+from langchain_community.llms import Tongyi
 
-llm = ChatOpenAI(model="gpt-4o", temperature=0)
 
 system_prompt = """
 角色定义：
@@ -74,4 +74,12 @@ write_draft_prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-write_draft_chain = write_draft_prompt | llm
+
+def get_write_draft_chain(llm_type):
+    if llm_type == "通义千问":
+        llm = Tongyi(model="qwen-plus", temperature=0)
+    else:
+        llm = ChatOpenAI(model="gpt-4o", temperature=0)
+
+    write_draft_chain = write_draft_prompt | llm
+    return write_draft_chain

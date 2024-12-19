@@ -1,16 +1,18 @@
+import os
 from typing import Any, Dict
 from langchain_community.tools import TavilySearchResults
 from langchain.schema import Document
 
 from logger_config import logger
-from x_content_v2.graph.chains.write_draft_chain import write_draft_chain
-from x_content_v2.graph.state import GraphState
+from x_content.graph.chains.write_draft_chain import get_write_draft_chain
+from x_content.graph.state import GraphState
 
 web_search_tool = TavilySearchResults(k=3)
 
 
 def write_draft(state: GraphState) -> Dict[str, Any]:
     logger.info("---WRITE DRAFT (X_CONTENT)---")
+    llm_type = os.getenv("LLM_TYPE")
     project_name = state["project_name"]
     outline = state["outline"]
     todo_list = state["todo_list"]
@@ -27,7 +29,7 @@ def write_draft(state: GraphState) -> Dict[str, Any]:
     web_results = Document(page_content=web_results)
     documents = [web_results]
 
-    response = write_draft_chain.invoke(
+    response = get_write_draft_chain(llm_type).invoke(
         {
             "outline": outline,
             "title": todo["title"],
@@ -39,6 +41,9 @@ def write_draft(state: GraphState) -> Dict[str, Any]:
         }
     )
 
-    todo["content"] = response.content
+    if llm_type == "通义千问":
+        todo["content"] = response
+    else:
+        todo["content"] = response.content
 
     return {"doing": todo}

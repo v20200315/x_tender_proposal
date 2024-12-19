@@ -4,6 +4,8 @@ from datetime import datetime
 from time import sleep
 
 import streamlit as st
+
+from logger_config import logger
 from x_outline.graph.graph import app
 
 json_str = """
@@ -262,6 +264,11 @@ summarizations = [
 st.set_page_config(page_title="投标文件生成器")
 st.markdown("#### 投标文件Outline生成器 V0.1.2")
 
+llm_type = st.radio(
+    "选择你所想用的大语言模型",
+    ["OpenAI", "通义千问"],
+    index=0,
+)
 
 uploaded_file = st.file_uploader(
     "相关文档（暂时只支持上传一个PDF格式的文件）",
@@ -282,22 +289,26 @@ if submit:
     os.makedirs(output_dir, exist_ok=True)  # 创建目录，如果已存在则不会报错
 
     with st.spinner("AI正在思考中，请稍等..."):
+        os.environ["LLM_TYPE"] = llm_type
+        logger.info(f"LLM_TYPE: {llm_type}")
         file_content = uploaded_file.read()
         temp_file_path = os.path.join(output_dir, "temp.pdf")
         with open(temp_file_path, "wb") as temp_file:
             temp_file.write(file_content)
         st.session_state["path"] = temp_file_path
-        response = app.invoke(
-            input={"paths": [st.session_state["path"]]},
-            config={"recursion_limit": 64, "configurable": {"llm": "anthropic"}},
-        )
-        formatted_json = json.dumps(response["outline"], indent=4, ensure_ascii=False)
-        st.session_state["outline"] = response["outline"]
-        st.session_state["summarizations"] = response["summarizations"]
-        # parsed_json = json.loads(json_str)
-        # formatted_json = json.dumps(parsed_json, indent=4, ensure_ascii=False)
-        # st.session_state["outline"] = parsed_json
-        # st.session_state["summarizations"] = summarizations
+
+        # response = app.invoke(
+        #     input={"paths": [st.session_state["path"]]},
+        #     config={"recursion_limit": 64, "configurable": {"llm": "anthropic"}},
+        # )
+        # formatted_json = json.dumps(response["outline"], indent=4, ensure_ascii=False)
+        # st.session_state["outline"] = response["outline"]
+        # st.session_state["summarizations"] = response["summarizations"]
+
+        parsed_json = json.loads(json_str)
+        formatted_json = json.dumps(parsed_json, indent=4, ensure_ascii=False)
+        st.session_state["outline"] = parsed_json
+        st.session_state["summarizations"] = summarizations
 
         st.write("Outline")
         with st.container(height=500):

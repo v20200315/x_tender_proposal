@@ -95,8 +95,8 @@ else:
     # if st.session_state["path"]:
     #     st.write(st.session_state["path"])
 
-    # if st.session_state["outline"]:
-    #     st.json(st.session_state["outline"], expanded=False)
+    if st.session_state["outline"]:
+        st.json(st.session_state["outline"], expanded=False)
 
     parsed_json = st.session_state["outline"]
 

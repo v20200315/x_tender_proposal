@@ -1,9 +1,7 @@
 from langchain.chains.summarize import load_summarize_chain
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
-
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
-
+from langchain_community.llms import Tongyi
 
 prompt = PromptTemplate.from_template(
     """
@@ -16,8 +14,18 @@ prompt = PromptTemplate.from_template(
     简明摘要：
     """
 )
-summarize_docs_chain = load_summarize_chain(
-    llm,
-    chain_type="stuff",
-    prompt=prompt,
-)
+
+
+def get_summarize_docs_chain(llm_type):
+    if llm_type == "通义千问":
+        llm = Tongyi(model="qwen-plus", temperature=0)
+    else:
+        llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+
+    summarize_docs_chain = load_summarize_chain(
+        llm,
+        chain_type="stuff",
+        prompt=prompt,
+    )
+
+    return summarize_docs_chain
