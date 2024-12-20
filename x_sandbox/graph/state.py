@@ -10,5 +10,5 @@ class GraphState(TypedDict):
 
     paths: List[str]
     documents: List[Document]
-    summarizations: List[str]
-    outline: str
+    question: str
+    generation: str

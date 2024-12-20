@@ -2,8 +2,6 @@ from typing import Any, Dict
 
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_chroma import Chroma
-from langchain_openai import OpenAIEmbeddings
 
 from x_sandbox_2.graph.state import GraphState
 
@@ -20,12 +18,5 @@ def load_docs(state: GraphState) -> Dict[str, Any]:
         chunk_size=1000, chunk_overlap=100
     )
     documents = text_splitter.split_documents(docs_list)
-
-    Chroma.from_documents(
-        documents=documents,
-        collection_name="rag-chroma",
-        embedding=OpenAIEmbeddings(),
-        persist_directory="./.chroma",
-    )
 
     return {"documents": documents}
