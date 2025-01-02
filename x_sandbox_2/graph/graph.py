@@ -2,21 +2,20 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from langgraph.graph import END, StateGraph
+from langgraph.constants import START, END
+from langgraph.graph import StateGraph
 
 from x_sandbox_2.graph.state import GraphState
-from x_sandbox_2.graph.nodes import load_docs, summarize_docs
-
+from x_sandbox_2.graph.nodes import (
+    organize_outline,
+)
 
 workflow = StateGraph(GraphState)
 
-workflow.add_node("load_docs", load_docs)
-workflow.add_node("summarize_docs", summarize_docs)
+workflow.add_node("organize_outline", organize_outline)
 
-workflow.set_entry_point("load_docs")
-workflow.add_edge("load_docs", "summarize_docs")
-workflow.add_edge("summarize_docs", END)
-
+workflow.add_edge(START, "organize_outline")
+workflow.add_edge("organize_outline", END)
 
 app = workflow.compile()
 

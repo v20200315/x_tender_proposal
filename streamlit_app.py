@@ -20,6 +20,9 @@ pages = {
     "工具": [
         st.Page("cloned_chatgpt.py", title="克隆的ChatGPT", icon="💬"),
     ],
+    "测试": [
+        st.Page("human_feedback.py", title="Human Feedback", icon="💬"),
+    ],
 }
 
 pg = st.navigation(pages)

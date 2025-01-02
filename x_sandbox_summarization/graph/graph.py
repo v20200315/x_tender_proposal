@@ -22,7 +22,7 @@ def map_summarizations(state: GraphState):
 
 llm = ChatOpenAI(model="gpt-4o", temperature=0)
 
-token_max = 1000
+token_max = 3000
 
 
 def length_function(documents: List[Document]) -> int:

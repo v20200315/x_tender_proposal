@@ -1,8 +1,4 @@
-from typing import TypedDict, Annotated, List
-from langchain_core.agents import AgentAction
-from langchain_core.documents import Document
-from langchain_core.messages import BaseMessage
-import operator
+from typing import TypedDict
 
 
 class GraphState(TypedDict):
@@ -10,6 +6,5 @@ class GraphState(TypedDict):
     Represents the state of our graph.
     """
 
-    paths: List[str]
-    documents: List[Document]
-    summarization: str
+    outline: str
+    organized_outline: str

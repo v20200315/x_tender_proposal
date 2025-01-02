@@ -1,6 +1,6 @@
-from typing import List, TypedDict
-
+from typing import TypedDict, Annotated, List
 from langchain_core.documents import Document
+import operator
 
 
 class GraphState(TypedDict):
@@ -9,6 +9,12 @@ class GraphState(TypedDict):
     """
 
     paths: List[str]
-    documents: List[Document]
-    question: str
-    generation: str
+    contents: List[str]
+    content: str
+    summarizations: Annotated[list, operator.add]
+    collapsed_summarizations: List[Document]
+    final_summarization: str
+    classification: str
+    search_results: str
+    outline: str
+    organized_outline: str

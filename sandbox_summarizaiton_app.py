@@ -10,7 +10,7 @@ from x_sandbox_summarization.graph.graph import app
 if __name__ == "__main__":
     logger.info("Hello Sandbox SUMMARIZATION")
     paths = [
-        "/Users/victor/myfolder/workspace-ai/x_tender_proposal/temp/tender04.pdf",
+        "/Users/victor/myfolder/workspace-ai/x_tender_proposal/temp/tender05.pdf",
     ]
 
 

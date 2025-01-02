@@ -15,7 +15,7 @@ def load_docs(state: GraphState) -> Dict[str, Any]:
 
     # 文本分割
     text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
-        chunk_size=1000, chunk_overlap=100
+        chunk_size=3000, chunk_overlap=200
     )
     split_docs = text_splitter.split_documents(docs_list)
     contents = [doc.page_content for doc in split_docs]
