@@ -29,7 +29,11 @@ if st.session_state["反馈1"]:
         human_feedback_1 = st.text_input("Enter human feedback 1:")
         if st.form_submit_button("反馈1"):
             if human_feedback_1.strip():
-                app.update_state(thread, {"user_feedback_1": human_feedback_1}, as_node="human_feedback_1")
+                app.update_state(
+                    thread,
+                    {"user_feedback_1": human_feedback_1},
+                    as_node="human_feedback_1",
+                )
                 for step in app.stream(None, thread, stream_mode="values"):
                     st.write(step)
                 st.session_state["反馈2"] = True
@@ -41,7 +45,11 @@ if st.session_state["反馈2"]:
         human_feedback_2 = st.text_input("Enter human feedback 2:")
         if st.form_submit_button("反馈2"):
             if human_feedback_2.strip():
-                app.update_state(thread, {"user_feedback_2": human_feedback_2}, as_node="human_feedback_2")
+                app.update_state(
+                    thread,
+                    {"user_feedback_2": human_feedback_2},
+                    as_node="human_feedback_2",
+                )
                 for step in app.stream(None, thread, stream_mode="values"):
                     st.write(step)
                 st.session_state["完成"] = True

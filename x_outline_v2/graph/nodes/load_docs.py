@@ -11,12 +11,6 @@ def load_docs(state: GraphState) -> Dict[str, Any]:
     paths = state["paths"]
 
     docs = [PyPDFLoader(path).load() for path in paths]
-    docs_list = [item for sublist in docs for item in sublist]
-
-    # 文本分割
-    text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
-        chunk_size=3000, chunk_overlap=200
-    )
-    documents = text_splitter.split_documents(docs_list)
+    documents = [item for sublist in docs for item in sublist]
 
     return {"documents": documents}

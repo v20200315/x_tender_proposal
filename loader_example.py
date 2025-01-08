@@ -6,7 +6,9 @@ from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader
 from logger_config import logger
 
 if __name__ == "__main__":
-    file_path = "/Users/victor/myfolder/workspace-ai/x_tender_proposal/temp/tender04.pdf"
+    file_path = (
+        "/Users/victor/myfolder/workspace-ai/x_tender_proposal/temp/tender04.pdf"
+    )
     pages = PyPDFLoader(file_path).load()
     contents = []
     for page in pages:

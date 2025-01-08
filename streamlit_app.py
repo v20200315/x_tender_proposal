@@ -23,6 +23,11 @@ pages = {
     "测试": [
         st.Page("human_feedback.py", title="Human Feedback", icon="💬"),
     ],
+    "沙箱": [
+        st.Page("sandbox.py", title="大纲生成1.1", icon="☕"),
+        st.Page("sandbox2.py", title="大纲生成1.2", icon="☕"),
+        st.Page("sandbox3.py", title="大纲生成1.3", icon="☕"),
+    ],
 }
 
 pg = st.navigation(pages)

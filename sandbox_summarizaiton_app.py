@@ -13,13 +13,11 @@ if __name__ == "__main__":
         "/Users/victor/myfolder/workspace-ai/x_tender_proposal/temp/tender05.pdf",
     ]
 
-
     async def process():
         async for step in app.astream(
-                {"paths": paths},
-                {"recursion_limit": 64},
+            {"paths": paths},
+            {"recursion_limit": 64},
         ):
             logger.info(list(step.keys()))
-
 
     asyncio.run(process())

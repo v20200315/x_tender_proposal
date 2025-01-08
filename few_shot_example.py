@@ -9,7 +9,8 @@ from langchain_core.prompts import ChatPromptTemplate, FewShotChatMessagePromptT
 llm = ChatOpenAI(model="gpt-4o", temperature=0)
 
 examples = [
-    {"input": """
+    {
+        "input": """
         中国移动通信集团黑龙江有限公司电子邮件
         项目软件选型询价书
         公司:
@@ -355,7 +356,7 @@ examples = [
         6.4 涉密认证（可选）
         6.5 高新技术企业认证（可选）
     """,
-     "output": """
+        "output": """
      大纲：
         1	方案综述
         1.1	项目背景
@@ -409,7 +410,8 @@ examples = [
         5.1	中国人民财产保险有限责任公司（PICC）邮件系统
         5.2	民生银行邮件系统（和内部信息系统集成）
         5.3	国内大容量用户案例举例
-    """},
+    """,
+    },
 ]
 
 example_prompt = ChatPromptTemplate.from_messages(
@@ -1220,9 +1222,6 @@ input3 = """
 的补充通知》（财库〔2015〕124号）的规定，采用竞争性磋商采购方式采购的
 政府购买服务项目（含政府和社会资本合作项目），在采购过程中符合要求的供
 """
-response = chain.invoke(
-    {
-        """input""": input1
-    })
+response = chain.invoke({"""input""": input1})
 
 print(response.content)

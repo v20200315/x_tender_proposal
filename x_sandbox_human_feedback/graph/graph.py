@@ -31,6 +31,8 @@ workflow.add_edge("step_3", END)
 
 memory = MemorySaver()
 
-app = workflow.compile(checkpointer=memory, interrupt_before=["human_feedback_1", "human_feedback_2"])
+app = workflow.compile(
+    checkpointer=memory, interrupt_before=["human_feedback_1", "human_feedback_2"]
+)
 
 app.get_graph().draw_mermaid_png(output_file_path="x_sandbox_human_feedback/graph.png")

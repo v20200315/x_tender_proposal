@@ -12,7 +12,7 @@ def generate_outline(state: GraphState) -> Dict[str, Any]:
         {
             "classification": state["classification"],
             "final_summarization": state["final_summarization"],
+            "requirements": state["requirements"],
         }
     )
-    logger.info(f"OUTLINE:\n\n{response}")
     return {"outline": response}

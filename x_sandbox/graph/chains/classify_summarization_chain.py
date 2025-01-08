@@ -1,8 +1,10 @@
+from langchain_community.chat_models import ChatTongyi
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+# llm = ChatTongyi(model="qwen-max", temperature=0)
 
 classify_summarization_template = """
 你是一位专业的分类识别专家，擅长根据文本内容精准判断其所属的类别。以下是用户提供的一段招标文件内容，请根据内容判断其所属的分类，
@@ -16,6 +18,8 @@ classify_summarization_template = """
 分类名称
 """
 
-classify_summarization_prompt = ChatPromptTemplate([("human", classify_summarization_template)])
+classify_summarization_prompt = ChatPromptTemplate(
+    [("human", classify_summarization_template)]
+)
 
 classify_summarization_chain = classify_summarization_prompt | llm | StrOutputParser()

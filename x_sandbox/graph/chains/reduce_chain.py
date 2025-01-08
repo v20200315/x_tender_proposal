@@ -1,8 +1,10 @@
+from langchain_community.chat_models import ChatTongyi
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+# llm = ChatTongyi(model="qwen-max", temperature=0)
 
 reduce_template = """
 以下是一组摘要：

@@ -304,7 +304,7 @@ if submit:
         )
         formatted_json = json.dumps(response["outline"], indent=4, ensure_ascii=False)
         st.session_state["outline"] = response["outline"]
-        st.session_state["summarizations"] = response["summarizations"]
+        st.session_state["summarizations"] = ""
         # parsed_json = json.loads(json_str)
         # formatted_json = json.dumps(parsed_json, indent=4, ensure_ascii=False)
         # st.session_state["outline"] = parsed_json

@@ -11,7 +11,7 @@ from x_outline.graph.state import GraphState
 def generate_outline(state: GraphState) -> Dict[str, Any]:
     logger.info("---GENERATE OUTLINE (X_OUTLINE)---")
     llm_type = os.getenv("LLM_TYPE")
-    summarizations = state["summarizations"]
+    summarizations = state["documents"]
 
     # response = get_generate_outline_chain(llm_type).invoke(
     #     {"summarizations": summarizations, "tier": 1}

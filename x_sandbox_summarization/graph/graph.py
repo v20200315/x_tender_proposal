@@ -10,13 +10,19 @@ from langchain_core.documents import Document
 from langchain_openai import ChatOpenAI
 
 from x_sandbox_summarization.graph.state import GraphState
-from x_sandbox_summarization.graph.nodes import load_docs, generate_summarization, collect_summarizations, \
-    collapse_summarizations, generate_final_summarization
+from x_sandbox_summarization.graph.nodes import (
+    load_docs,
+    generate_summarization,
+    collect_summarizations,
+    collapse_summarizations,
+    generate_final_summarization,
+)
 
 
 def map_summarizations(state: GraphState):
     return [
-        Send("generate_summarization", {"content": content}) for content in state["contents"]
+        Send("generate_summarization", {"content": content})
+        for content in state["contents"]
     ]
 
 
@@ -30,7 +36,7 @@ def length_function(documents: List[Document]) -> int:
 
 
 def should_collapse(
-        state: GraphState,
+    state: GraphState,
 ) -> Literal["collapse_summarizations", "generate_final_summarization"]:
     num_tokens = length_function(state["collapsed_summarizations"])
     if num_tokens > token_max:
@@ -48,7 +54,9 @@ workflow.add_node("collapse_summarizations", collapse_summarizations)
 workflow.add_node("generate_final_summarization", generate_final_summarization)
 
 workflow.add_edge(START, "load_docs")
-workflow.add_conditional_edges("load_docs", map_summarizations, ["generate_summarization"])
+workflow.add_conditional_edges(
+    "load_docs", map_summarizations, ["generate_summarization"]
+)
 workflow.add_edge("generate_summarization", "collect_summarizations")
 workflow.add_conditional_edges("collect_summarizations", should_collapse)
 workflow.add_conditional_edges("collapse_summarizations", should_collapse)

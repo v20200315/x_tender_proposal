@@ -5,7 +5,7 @@ from typing import List, Optional
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 
-llm = ChatOpenAI(model="gpt-4o", temperature=0.2)
+llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.2)
 
 template = """
 #### 角色

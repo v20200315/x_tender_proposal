@@ -8,7 +8,7 @@ from x_outline_v2.graph.state import GraphState
 
 def generate_outline(state: GraphState) -> Dict[str, Any]:
     logger.info("---GENERATE OUTLINE (X_OUTLINE_V2)---")
-    summarizations = state["summarizations"]
+    summarizations = state["documents"]
 
     response = generate_outline_chain.invoke(
         {"summarizations": summarizations, "tier": 1}

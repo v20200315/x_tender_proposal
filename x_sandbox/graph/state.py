@@ -9,12 +9,11 @@ class GraphState(TypedDict):
     """
 
     paths: List[str]
-    contents: List[str]
-    content: str
+    contents: List[Document]
+    content: Document
     summarizations: Annotated[list, operator.add]
     collapsed_summarizations: List[Document]
     final_summarization: str
     classification: str
-    search_results: str
+    requirements: Annotated[list, operator.add]
     outline: str
-    organized_outline: str
